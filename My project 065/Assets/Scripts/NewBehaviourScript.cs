@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -17,11 +18,19 @@ public class NewBehaviourScript : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     public bool isGrounded;
+
+    public int maxHP = 100;
+    private int currentHP;
+
+    public Slider hpSlider;
     
     void Start()
     {
         controller = GetComponent<CharacterController>();
         pov = virtualCam.GetCinemachineComponent<CinemachinePOV>();
+
+        currentHP = maxHP;
+        hpSlider.value = 1f; 
     }
 
     void Update()
@@ -66,6 +75,29 @@ public class NewBehaviourScript : MonoBehaviour
             speed = 5f;
             virtualCam.m_Lens.FieldOfView = 60;
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            pov.m_HorizontalAxis.Value = transform.eulerAngles.y;
+            pov.m_VerticalAxis.Value = 0f;
+        }
         
     }
+
+    public void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        hpSlider.value = (float)currentHP / maxHP;
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+
 }
