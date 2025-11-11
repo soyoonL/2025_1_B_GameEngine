@@ -15,6 +15,12 @@ public class Player2Controller : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();

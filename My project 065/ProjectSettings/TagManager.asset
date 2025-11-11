@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - weapon2
   - weapon1
+  - Block
   layers:
   - Default
   - TransparentFX
