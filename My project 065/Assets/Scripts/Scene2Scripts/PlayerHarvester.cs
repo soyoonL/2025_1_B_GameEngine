@@ -31,6 +31,7 @@ public class PlayerHarvester : MonoBehaviour
                 if( block != null )
                 {
                     block.Hit(toolDamage, inventory);
+
                 }
             }
         }

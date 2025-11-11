@@ -36,6 +36,7 @@ public class Block : MonoBehaviour
                 inven.Add(type, dropCount);
             }
             Destroy(gameObject);
+           
         }
     }
 }
