@@ -30,30 +30,53 @@ public class NoiseVoxelMap : MonoBehaviour
                 float noise = Mathf.PerlinNoise(nx, nz);
 
                 int h = Mathf.FloorToInt(noise * maxHeight);
-
+                if (h <= 0) h = 1;
                 for (int y=0; y <= h; y++)
                 {
-                    GameObject prefab = (y==h) ? grassPrefab : soilPrefab;
-                    Place(prefab, x, y, z);
+                    if (y == h)
+                        PlaceGrass(x, y, z);
+                    else
+                        PlaceDirt(x, y,  z);
                 }
 
-                if(h < waterLevel)
+                for (int y=h+1;y<=waterLevel;y++)
                 {
-                    for(int y = h+1;y <= waterLevel; y++)
-                    {
-                        Place(waterPrefab,x,y,z);
-                    }
+                    
+                    
+                        PlaceWater(x,y,z);
+                    
                 }
             }
         }
     }
 
-    private void Place(GameObject prefab, int x, int y, int z)
+    private void PlaceWater(int x, int y, int z)
     {
-        if (prefab == null) return;
-
-        var go = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity, transform);
-        go.name = $"{prefab.name}_{x}_{y}_{z}";
+        var go = Instantiate(waterPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
+        go.name = $"Water_{x}_{y}_{z}";
     }
 
+    private void PlaceDirt(int x, int y, int z)
+    {
+        var go = Instantiate(soilPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
+        go.name = $"Dirt_{x}_{y}_{z}";
+
+        var b = go.GetComponent<Block>() ?? go.AddComponent<Block>();
+        b.type = BlockType.Dirt;
+        b.maxHP = 3;
+        b.dropCount = 1;
+        b.mineable = true;
+    }
+
+    private void PlaceGrass(int x, int y, int z)
+    {
+        var go = Instantiate(grassPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
+        go.name = $"Grass_{x}_{y}_{z}";
+
+        var b = go.GetComponent<Block>() ?? go.AddComponent<Block>();
+        b.type = BlockType.Dirt;
+        b.maxHP = 3;
+        b.dropCount = 1;
+        b.mineable = true;
+    }
 }
