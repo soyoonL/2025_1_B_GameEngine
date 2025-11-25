@@ -8,11 +8,13 @@ public class SlotItemPrefab : MonoBehaviour
 {
     public Image itemImage;
     public TextMeshProUGUI itemText;
+    public BlockType blockType;
 
-    public void ItemSetting(Sprite itemSprite, string txt)
+    public void ItemSetting(Sprite itemSprite, string txt, BlockType type)
     {
         itemImage.sprite = itemSprite;
         itemText.text = txt;
+        blockType = type;
     }
 
     public void UpdateInventory(Inventory myInven)
@@ -28,6 +30,7 @@ public class SlotItemPrefab : MonoBehaviour
                     break;
                 case BlockType.Water:
                     break;
+
             }
         }
     }

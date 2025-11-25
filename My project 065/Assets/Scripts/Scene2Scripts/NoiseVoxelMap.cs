@@ -7,6 +7,7 @@ public class NoiseVoxelMap : MonoBehaviour
     public GameObject grassPrefab;
     public GameObject soilPrefab;
     public GameObject waterPrefab;
+    
 
     public int width = 20;
     public int depth = 20;
@@ -50,6 +51,22 @@ public class NoiseVoxelMap : MonoBehaviour
         }
     }
 
+    public void PlaceTile(Vector3Int pos, BlockType type)
+    {
+        switch (type)
+        {
+            case BlockType.Dirt:
+                PlaceDirt(pos.x, pos.y, pos.z);
+                break;
+            case BlockType.Grass:
+                PlaceGrass(pos.x, pos.y, pos.z);
+                break;
+            case BlockType.Water:
+                PlaceWater(pos.x, pos.y, pos.z);
+                break;
+           
+        }
+    }
     private void PlaceWater(int x, int y, int z)
     {
         var go = Instantiate(waterPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
@@ -74,7 +91,7 @@ public class NoiseVoxelMap : MonoBehaviour
         go.name = $"Grass_{x}_{y}_{z}";
 
         var b = go.GetComponent<Block>() ?? go.AddComponent<Block>();
-        b.type = BlockType.Dirt;
+        b.type = BlockType.Grass;
         b.maxHP = 3;
         b.dropCount = 1;
         b.mineable = true;
